@@ -1,3 +1,23 @@
+# Aborean Finance Licensing Notice
+
+Aborean Finance core smart contracts are distributed under the terms of the
+GNU General Public License v3.0 or (at your option) any later version. The full
+text of this license is available in `LICENSES/ABOREAN_FINANCE_GPL-3.0-OR-LATER.md`.
+
+We forked the Aerodrome Finance (Velodrome) contracts only after the applicable
+Business Source License 1.1 change date for those sources had elapsed, which
+means the upstream work is now offered under the GPL v2.0-or-later change
+license referenced in the original terms. This repository therefore combines the
+original GPL grant with Aborean Finance’s own GPL v3.0-or-later licensing.
+
+Because this repository derives from the Aerodrome Finance core contracts, it
+continues to include and comply with the original Business Source License 1.1
+from Perpetual Cyclist Services LLC, which is reproduced in full below without
+modification. Nothing in the Aborean Finance licensing replaces or removes the
+obligations set out in that license.
+
+---
+
 Business Source License 1.1
 
 License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.

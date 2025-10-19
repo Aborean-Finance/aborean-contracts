@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: BUSL-1.1 OR GPL-3.0-or-later
+// NOTE: The upstream Business Source License change date has passed; this fork is distributed under GPL terms. See LICENSE.md and NOTICE.md for details.
 // OpenZeppelin Contracts (last updated v4.6.0) (governance/extensions/GovernorVotes.sol)
 
 pragma solidity ^0.8.0;

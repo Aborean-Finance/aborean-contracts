@@ -1,19 +1,28 @@
 {
-  "name": "aerodrome",
-  "version": "2.0.0",
-  "description": "Base layer AMM on EVMs",
-  "directories": {
-    "lib": "lib"
-  },
+  "name": "aborean-finance-contracts",
+  "version": "0.1.0",
+  "description": "Aborean Finance core smart contracts",
+  "license": "GPL-3.0-or-later",
+  "legacyLicenses": [
+    "BUSL-1.1"
+  ],
   "devDependencies": {
+    "@matterlabs/hardhat-zksync": "^0.7.12",
+    "@matterlabs/hardhat-zksync-deploy": "^0.7.12",
+    "@matterlabs/hardhat-zksync-ethers": "^0.7.12",
+    "@matterlabs/hardhat-zksync-solc": "^0.7.12",
+    "@matterlabs/hardhat-zksync-verify": "^0.7.12",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@nomicfoundation/hardhat-foundry": "^1.0.1",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@nomicfoundation/hardhat-verify": "^1.1.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@openzeppelin/contracts": "4.8.0",
     "@tenderly/hardhat-tenderly": "1.7.5",
     "@typechain/ethers-v5": "^10.2.1",
+    "@typechain/ethers-v6": "^0.4.3",
     "@typechain/hardhat": "^6.1.6",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
@@ -21,6 +30,7 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "hardhat": "^2.13.1",
+    "hardhat-deploy": "^1.7.8",
     "hardhat-gas-reporter": "^1.0.9",
     "prettier": "^2.6.2",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
@@ -36,6 +46,8 @@
     "format": "prettier --write 'contracts/**/*.(sol|json)' 'test/**/*.(sol|json)' 'script/**/*.(sol|ts)'",
     "format:check": "prettier --check 'contracts/**/*.*(sol|json)' 'test/**/*.(sol|json)' 'script/**/*.(sol|ts)'",
     "lint": "solhint --fix 'contracts/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'",
-    "lint:check": "solhint 'contracts/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'"
+    "lint:check": "solhint 'contracts/**/*.sol' 'test/**/*.sol' 'script/**/*.sol'",
+    "deploy:abstract-mainnet": "hardhat deploy --network abstractMainnet",
+    "deploy:abstract-testnet": "hardhat deploy --network abstractTestnet"
   }
 }

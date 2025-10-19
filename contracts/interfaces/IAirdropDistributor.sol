@@ -1,7 +1,8 @@
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: BUSL-1.1 OR GPL-3.0-or-later
+// NOTE: The upstream Business Source License change date has passed; this fork is distributed under GPL terms. See LICENSE.md and NOTICE.md for details.
 pragma solidity 0.8.19;
 
-import {IAero} from "./IAero.sol";
+import {IAbx} from "./IAbx.sol";
 import {IVotingEscrow} from "./IVotingEscrow.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -11,8 +12,8 @@ interface IAirdropDistributor {
 
     event Airdrop(address indexed _wallet, uint256 _amount, uint256 _tokenId);
 
-    /// @notice Interface of Aero.sol
-    function aero() external view returns (IAero);
+    /// @notice Interface of Abx.sol
+    function abx() external view returns (IAbx);
 
     /// @notice Interface of IVotingEscrow.sol
     function ve() external view returns (IVotingEscrow);

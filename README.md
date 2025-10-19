@@ -1,8 +1,10 @@
-# Protocol
+# Aborean Finance Core Contracts
 
-All contracts for the Protocol, an AMM on EVMs inspired by Solidly.
+Aborean Finance is an automated market maker (AMM) and ve-tokenomics protocol
+inspired by Solidly and Aerodrome Finance. This repository contains the on-chain
+smart contracts that power the protocol.
 
-See `SPECIFICATION.md` for more detail.
+See `SPECIFICATION.md` for more detail on architecture and flows.
 
 ## Protocol Overview
 
@@ -20,7 +22,7 @@ See `SPECIFICATION.md` for more detail.
 
 | Filename | Description |
 | --- | --- |
-| `Aero.sol` | Protocol ERC20 token |
+| `Abx.sol` | Protocol ERC20 token |
 | `VotingEscrow.sol` | Protocol ERC-721 (ve)NFT representing the protocol vote-escrow lock. Beyond standard ve-type functions, there is also the ability to merge, split and create managed nfts. |
 | `Minter.sol` | Protocol token minter. Distributes emissions to `Voter.sol` and rebases to `RewardsDistributor.sol`. |
 | `RewardsDistributor.sol` | Is used to handle the rebases distribution for (ve)NFTs/lockers. |
@@ -39,7 +41,7 @@ See `SPECIFICATION.md` for more detail.
 | `FeesVotingReward.sol` | Stores LP fees (from the gauge via `PoolFees.sol`) to be distributed for the current voting epoch to it's voters. |
 | `BribeVotingReward.sol` | Stores the users/externally provided rewards for the current voting epoch to it's voters. These are deposited externally every week. |
 | `ManagedReward.sol` | Staking implementation for managed veNFTs used by `LockedManagedReward.sol` and `FreeManagedReward.sol` which inherits `Reward.sol`.  Rewards can be earned passively by veNFTs who delegate their voting power to a "managed" veNFT.
-| `LockedManagedReward.sol` | Handles "locked" rewards (i.e. Aero rewards / rebases that are compounded) for managed NFTs. Rewards are not distributed and only returned to `VotingEscrow.sol` when the user withdraws from the managed NFT. | 
+| `LockedManagedReward.sol` | Handles "locked" rewards (i.e. ABX emissions / rebases that are compounded) for managed NFTs. Rewards are not distributed and only returned to `VotingEscrow.sol` when the user withdraws from the managed NFT. | 
 | `FreeManagedReward.sol` | Handles "free" (i.e. unlocked) rewards for managed NFTs. Any rewards earned by a managed NFT that a manager passes on will be distributed to the users that deposited into the managed NFT. | 
 
 ### Governance contracts
@@ -80,22 +82,51 @@ See `script/README.md` for more detail.
 ### Access Control
 See `PERMISSIONS.md` for more detail.
 
-## Deployment
+### Abstract Mainnet
 
-| Name               | Address                                                                                                                               |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
-| ArtProxy               | [0xE9992487b2EE03b7a91241695A58E0ef3654643E](https://basescan.org/address/0xE9992487b2EE03b7a91241695A58E0ef3654643E#code) |
-| RewardsDistributor               | [0x227f65131A261548b057215bB1D5Ab2997964C7d](https://basescan.org/address/0x227f65131A261548b057215bB1D5Ab2997964C7d#code) |
-| FactoryRegistry               | [0x5C3F18F06CC09CA1910767A34a20F771039E37C0](https://basescan.org/address/0x5C3F18F06CC09CA1910767A34a20F771039E37C0#code) |
-| Forwarder               | [0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc](https://basescan.org/address/0x15e62707FCA7352fbE35F51a8D6b0F8066A05DCc#code) |
-| GaugeFactory               | [0x35f35cA5B132CaDf2916BaB57639128eAC5bbcb5](https://basescan.org/address/0x35f35cA5B132CaDf2916BaB57639128eAC5bbcb5#code) |
-| ManagedRewardsFactory               | [0xFdA1fb5A2a5B23638C7017950506a36dcFD2bDC3](https://basescan.org/address/0xFdA1fb5A2a5B23638C7017950506a36dcFD2bDC3#code) |
-| Minter               | [0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5](https://basescan.org/address/0xeB018363F0a9Af8f91F06FEe6613a751b2A33FE5#code) |
-| PoolFactory               | [0x420DD381b31aEf6683db6B902084cB0FFECe40Da](https://basescan.org/address/0x420DD381b31aEf6683db6B902084cB0FFECe40Da#code) |
-| Router               | [0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43](https://basescan.org/address/0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43#code) |
-| AERO               | [0x940181a94A35A4569E4529A3CDfB74e38FD98631](https://basescan.org/address/0x940181a94A35A4569E4529A3CDfB74e38FD98631#code) |
-| Voter               | [0x16613524e02ad97eDfeF371bC883F2F5d6C480A5](https://basescan.org/address/0x16613524e02ad97eDfeF371bC883F2F5d6C480A5#code) |
-| VotingEscrow               | [0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4](https://basescan.org/address/0xeBf418Fe2512e7E6bd9b87a8F0f294aCDC67e6B4#code) |
-| VotingRewardsFactory               | [0x45cA74858C579E717ee29A86042E0d53B252B504](https://basescan.org/address/0x45cA74858C579E717ee29A86042E0d53B252B504#code) |
-| Pool               | [0xA4e46b4f701c62e14DF11B48dCe76A7d793CD6d7](https://basescan.org/address/0xA4e46b4f701c62e14DF11B48dCe76A7d793CD6d7#code) |
+| Contract | Address |
+| --- | --- |
+| Abx | [0x4C68E4102c0F120cce9F08625bd12079806b7C4D](https://abscan.org/address/0x4C68E4102c0F120cce9F08625bd12079806b7C4D) |
+| AirdropDistributor | [0xd29d05bFfb2F0AfBB76ed217d726Ff5922253086](https://abscan.org/address/0xd29d05bFfb2F0AfBB76ed217d726Ff5922253086) |
+| FactoryRegistry | [0x5927E0C4b307Af16260327DE3276CE17d8A4aB49](https://abscan.org/address/0x5927E0C4b307Af16260327DE3276CE17d8A4aB49) |
+| Forwarder | [0x3f91b806F1968Fca85C08A7eE9A7262D7207A9c1](https://abscan.org/address/0x3f91b806F1968Fca85C08A7eE9A7262D7207A9c1) |
+| GaugeFactory | [0x29BfEd845b1C10e427766b21d4533800B6f4e111](https://abscan.org/address/0x29BfEd845b1C10e427766b21d4533800B6f4e111) |
+| ManagedRewardsFactory | [0x889d93f9c3586ec7CD287eE4e7C96E544985Ee95](https://abscan.org/address/0x889d93f9c3586ec7CD287eE4e7C96E544985Ee95) |
+| Minter | [0x58564Fcfc5a0C57887eFC0beDeC3EB5Ec37f1626](https://abscan.org/address/0x58564Fcfc5a0C57887eFC0beDeC3EB5Ec37f1626) |
+| Pool | [0x3E5791019A9Fae2805d69965b06dcEFC43Cd1A79](https://abscan.org/address/0x3E5791019A9Fae2805d69965b06dcEFC43Cd1A79) |
+| PoolFactory | [0xF6cDfFf7Ad51caaD860e7A35d6D4075d74039a6B](https://abscan.org/address/0xF6cDfFf7Ad51caaD860e7A35d6D4075d74039a6B) |
+| RewardsDistributor | [0x36cbf77D8F8355D7A077d670C29E290E41367072](https://abscan.org/address/0x36cbf77D8F8355D7A077d670C29E290E41367072) |
+| Router | [0xE8142D2f82036B6FC1e79E4aE85cF53FBFfDC998](https://abscan.org/address/0xE8142D2f82036B6FC1e79E4aE85cF53FBFfDC998) |
+| VeArtProxy | [0x53AF068205CB466d7Ce6e55fD1E64eB9eBcB7ce0](https://abscan.org/address/0x53AF068205CB466d7Ce6e55fD1E64eB9eBcB7ce0) |
+| Voter | [0xC0F53703e9f4b79fA2FB09a2aeBA487FA97729c9](https://abscan.org/address/0xC0F53703e9f4b79fA2FB09a2aeBA487FA97729c9) |
+| VotingEscrow | [0x27B04370D8087e714a9f557c1EFF7901cea6bB63](https://abscan.org/address/0x27B04370D8087e714a9f557c1EFF7901cea6bB63) |
+| VotingRewardsFactory | [0xCEf48ee1b2F7c0833D6F097c69D1ed4159b60958](https://abscan.org/address/0xCEf48ee1b2F7c0833D6F097c69D1ed4159b60958) |
 
+
+#### Reproducing Deployments
+
+- Scripts under `deploy/` (powered by Hardhat Deploy) recreate the production
+  rollout. They expect a configuration file at `deploy/config/<network>.json`,
+  so copy and edit the provided `*.example.json` templates before running the
+  scripts.
+- Deployment artifacts for each chain are stored in `deployments/<network>/`.
+  Hardhat uses these files to resolve existing addresses and ABIs during future
+  runs, and they double as on-chain records for integrations.
+- Export the required environment variables (`PRIVATE_KEY_DEPLOY`,
+  `ABSTRACT_MAINNET_RPC_URL`, etc.) then run `yarn deploy:abstract-mainnet` or
+  `yarn deploy:abstract-testnet` to execute the staged deployment sequence.
+- After redeploying, update the contract table above and commit any changes in
+  `deployments/` so the repository reflects the live state.
+
+## Licensing
+
+Aborean Finance code is released under the GNU General Public License v3.0 or
+later. The full license text is available at
+`LICENSES/ABOREAN_FINANCE_GPL-3.0-OR-LATER.md`. This fork retains the upstream
+Business Source License 1.1 from Perpetual Cyclist Services LLC, reproduced in
+`LICENSE.md`, and all redistribution must comply with both licensing regimes.
+We forked the upstream contracts only after the Business Source License change
+date was reached, so the GPL change
+license now applies to the inherited code as well as our own contributions.
+Additional attribution and third-party license information can be found in
+`NOTICE.md`.

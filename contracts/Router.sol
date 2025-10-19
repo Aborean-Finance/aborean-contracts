@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: BUSL-1.1 OR GPL-3.0-or-later
+// NOTE: The upstream Business Source License change date has passed; this fork is distributed under GPL terms. See LICENSE.md and NOTICE.md for details.
 pragma solidity 0.8.19;
 
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
@@ -13,7 +14,6 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ERC2771Context} from "@openzeppelin/contracts/metatx/ERC2771Context.sol";
-import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
 
 /// @title Protocol Router
 /// @author velodrome.finance, @pegahcarter
@@ -73,8 +73,7 @@ contract Router is IRouter, ERC2771Context {
         if (!IFactoryRegistry(factoryRegistry).isPoolFactoryApproved(factory)) revert PoolFactoryDoesNotExist();
 
         (address token0, address token1) = sortTokens(tokenA, tokenB);
-        bytes32 salt = keccak256(abi.encodePacked(token0, token1, stable));
-        pool = Clones.predictDeterministicAddress(IPoolFactory(factory).implementation(), salt, factory);
+        pool = IPoolFactory(factory).getPool(token0, token1, stable);
     }
 
     /// @dev given some amount of an asset and pool reserves, returns an equivalent amount of the other asset

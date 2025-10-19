@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: BUSL-1.1
+// SPDX-License-Identifier: BUSL-1.1 OR GPL-3.0-or-later
+// NOTE: The upstream Business Source License change date has passed; this fork is distributed under GPL terms. See LICENSE.md and NOTICE.md for details.
 pragma solidity 0.8.19;
 
 import {IPoolFactory} from "../interfaces/factories/IPoolFactory.sol";
 import {IPool} from "../interfaces/IPool.sol";
-import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
+import {Pool} from "../Pool.sol";
 
 contract PoolFactory is IPoolFactory {
     address public immutable implementation;
@@ -46,10 +47,6 @@ contract PoolFactory is IPoolFactory {
         return allPools.length;
     }
 
-    /// @inheritdoc IPoolFactory
-    function getPool(address tokenA, address tokenB, uint24 fee) external view returns (address) {
-        return fee > 1 ? address(0) : fee == 1 ? _getPool[tokenA][tokenB][true] : _getPool[tokenA][tokenB][false];
-    }
 
     /// @inheritdoc IPoolFactory
     function getPool(address tokenA, address tokenB, bool stable) external view returns (address) {
@@ -117,20 +114,14 @@ contract PoolFactory is IPoolFactory {
     }
 
     /// @inheritdoc IPoolFactory
-    function createPool(address tokenA, address tokenB, uint24 fee) external returns (address pool) {
-        if (fee > 1) revert FeeInvalid();
-        bool stable = fee == 1;
-        return createPool(tokenA, tokenB, stable);
-    }
-
-    /// @inheritdoc IPoolFactory
     function createPool(address tokenA, address tokenB, bool stable) public returns (address pool) {
         if (tokenA == tokenB) revert SameAddress();
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         if (token0 == address(0)) revert ZeroAddress();
         if (_getPool[token0][token1][stable] != address(0)) revert PoolAlreadyExists();
         bytes32 salt = keccak256(abi.encodePacked(token0, token1, stable)); // salt includes stable as well, 3 parameters
-        pool = Clones.cloneDeterministic(implementation, salt);
+        // pool = Clones.cloneDeterministic(implementation, salt);
+        pool = address(new Pool{salt: salt}());
         IPool(pool).initialize(token0, token1, stable);
         _getPool[token0][token1][stable] = pool;
         _getPool[token1][token0][stable] = pool; // populate mapping in the reverse direction
